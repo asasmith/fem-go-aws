@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"lamda-func/app"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -11,7 +12,7 @@ type MyEvent struct {
 }
 
 // take in a payload and do somethign with it
-func HandleRequest(event MyEvent) (string, error) { 
+func HandleRequest(event MyEvent) (string, error) {
 	if event.Username == "" {
 		return "", fmt.Errorf("Username cannot be empty")
 	}
@@ -20,5 +21,6 @@ func HandleRequest(event MyEvent) (string, error) {
 }
 
 func main() {
-	lambda.Start(HandleRequest)
+	myApp := app.NewApp()
+	lambda.Start(myApp.ApiHandler.RegisterUserHandler)
 }
